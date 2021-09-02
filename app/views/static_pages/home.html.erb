@@ -1,4 +1,17 @@
-<h1>配球共有</h1>
-<p>
-  配球を共有できるウェブアプリを作成予定です。
-</p>
+<div class="center jumbotron">
+  <h1>配球共有</h1>
+
+  <h2>
+    配球の考え方や情報を共有するためのWebアプリ
+    <!--
+    <a href="/">配球共有</a>
+    -->
+    <%= link_to "配球共有", root_path %>
+    のトップページです。
+  </h2>
+
+  <%= link_to "Sign up now!", 'signup_path', class: "btn btn-lg btn-primary" %>
+</div>
+
+<%#= link_to image_tag("https://www.railstutorial.jp/rails.png", alt: "Rails logo"),
+            'http://rubyonrails.org/' %>

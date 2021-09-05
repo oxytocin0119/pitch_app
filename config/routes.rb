@@ -5,4 +5,7 @@ Rails.application.routes.draw do
   get  '/about',   to: 'static_pages#about'
   get  '/contact', to: 'static_pages#contact'
   get  '/signup',  to: 'users#new'
+  post '/signup',  to: 'users#create'
+  get  '/auth/:provider/callback', to: 'users#create_by_twitter'
+  resources :users
 end

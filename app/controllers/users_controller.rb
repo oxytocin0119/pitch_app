@@ -30,19 +30,22 @@ class UsersController < ApplicationController
       flash[:success] = 'ログインしました'
       redirect_to @user
     else
-      new_user = User.new(
+      @user = User.new(
         name: user_data[:info][:name],
         twitter_id: user_data[:info][:nickname],
         icon: user_data[:info][:image],
       )
-      if new_user.save
+=begin
+      if @user.save
 #        log_in new_user
         flash[:success] = 'アカウントが作成されました'
-        redirect_to new_user
+        redirect_to @user
       else
         flash[:danger] = '予期せぬエラーが発生しました'
         render 'new'
       end
+=end
+      render 'new'
     end
   end
 
@@ -50,7 +53,8 @@ class UsersController < ApplicationController
   private
 
     def user_params
-      params.require(:user).permit(:name, :email, :password,
-                                   :password_confirmation)
+      params.require(:user).permit(:name, :email, :twitter_id,
+                                          :password, :password_confirmation,
+                                          :icon)
     end
 end

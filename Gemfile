@@ -13,6 +13,7 @@ gem 'jbuilder',       '2.7.0'
 
 gem 'dotenv-rails'
 gem 'omniauth-twitter'
+gem 'omniauth-rails_csrf_protection'
 
 group :development, :test do
   gem 'sqlite3', '1.3.13'

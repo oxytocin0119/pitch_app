@@ -1,10 +1,10 @@
 module UsersHelper
-  def icon(user, size: 80 )
-    if user.twitter_id.blank?
-      gravatar_id = Digest::MD5::hexdigest(user.email.downcase)
-      gravatar_url = "https://secure.gravatar.com/avatar/#{gravatar_id}?s=#{size}"
-      image_tag(gravatar_url, alt: user.name, class: "gravatar")
+  def icon(user, size: 80)
+    if user.icon.present?
+      image_tag(user.icon, alt: user.name, class: "icon", size: size)
     else
+      dummy = "http://placehold.it/#{size}"
+      image_tag(dummy, alt: user.name, class: "icon", size: size)
     end
   end
 end

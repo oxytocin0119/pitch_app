@@ -73,4 +73,17 @@ class UserTest < ActiveSupport::TestCase
     assert_not @user.valid?
   end
 
+
+  test "not necessary email have twi-id" do
+    @user.twitter_id = "hogehoge"
+    @user.email = nil
+    assert @user.valid?
+  end
+
+  test "email always should reject invalid address" do
+    @user.email = "hoge@@hoge"
+    @user.twitter_id = "hogehoge"
+    assert_not @user.valid?
+  end
+
 end

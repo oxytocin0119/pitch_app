@@ -3,7 +3,7 @@ module UsersHelper
     if user.icon.present?
       image_tag(user.icon, alt: user.name, class: "icon", size: size)
     else
-      dummy = "http://placehold.it/#{size}"
+      dummy = "https://placehold.jp/#{size}.png"
       image_tag(dummy, alt: user.name, class: "icon", size: size)
     end
   end

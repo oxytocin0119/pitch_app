@@ -8,7 +8,8 @@ class SessionsController < ApplicationController
       # ユーザーログイン後にユーザー情報のページにリダイレクトする
       log_in @user
       params[:session][:remember_me] == '1' ? remember(@user) : forget(@user) 
-      redirect_to @user
+      flash[:success] = 'ログインしました'
+      redirect_back_or @user
     else
       # エラーメッセージを作成する
       flash.now[:danger] = 'メールアドレスまたはパスワードが違います'
@@ -27,7 +28,7 @@ class SessionsController < ApplicationController
     if @user
       log_in @user
       flash[:success] = 'ログインしました'
-      redirect_to @user
+      redirect_back_or @user
     else
       @user = User.new(
         name: user_data[:info][:name],
@@ -40,6 +41,7 @@ class SessionsController < ApplicationController
 
   def destroy
     log_out if logged_in?
+    flash[:success] = 'ログアウトしました'
     redirect_to root_url
   end
 

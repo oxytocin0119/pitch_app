@@ -6,14 +6,14 @@
         <li class="barlist"><%= link_to "Home",   root_path, class: "barlink" %></li>
         <li class="barlist"><%= link_to "Help",   help_path, class: "barlink" %></li>
         <% if logged_in? %>
-          <li class="barlist"><%= link_to "Users", '#', class: "barlink" %></li>
+          <li class="barlist"><%= link_to "Users", users_path, class: "barlink" %></li>
           <li class="dropdown barlist">
             <a href="#" class="dropdown-toggle barlink" data-toggle="dropdown">
               Account <b class="caret"></b>
             </a>
             <ul class="dropdown-menu">
               <li class="droplist"><%= link_to "Profile", current_user, class: "droplink" %></li>
-              <li class="droplist"><%= link_to "Settings", '#', class: "droplink" %></li>
+              <li class="droplist"><%= link_to "Settings", edit_user_path(current_user), class: "droplink" %></li>
               <li class="divider"></li>
               <li class="droplist">
                 <%= link_to "Log out", logout_path, method: :delete, class: "droplink" %>

@@ -1,0 +1,20 @@
+<% provide(:title, "Edit user") %>
+<% provide(:url, user_path) %>
+<% provide(:button_text, "更新") %>
+<h1>Update your profile</h1>
+
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+    <%= render 'form' %>
+    <div class="icon">
+      <%= icon @user %>
+      <% if @user.icon.present? %>
+        <%= link_to "アイコンをデフォルトにする", change_icon_path %>
+      <% elsif @user.twitter_id %>
+        <%= link_to "アイコンをTwitterから取得する", change_icon_path %>
+      <% else %>
+        <%= link_to "Twitterアカウントを連携してアイコンを取得する", '/auth/twitter', method: :post %>
+      <% end %>
+    </div>
+  </div>
+</div>

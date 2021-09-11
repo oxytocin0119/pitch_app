@@ -1,5 +1,8 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
+@import "bootstrap-social";
+@import "font-awesome-sprockets";
+@import "font-awesome";
 
 /* mixins, variables, etc. */
 
@@ -213,7 +216,7 @@ aside {
   }
 }
 
-.icon {
+.ownicon {
   float: left;
   margin-right: 10px;
 }
@@ -284,4 +287,11 @@ input {
   position: absolute;
   right:10px;
   top: 100%;
+}
+
+
+.btn-twitter {
+//  padding:100px;
+//  font-weight: bold;
+//  font-size: 1.3em;
 }

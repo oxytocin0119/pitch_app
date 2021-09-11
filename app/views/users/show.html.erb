@@ -5,8 +5,10 @@
       <h1>
         <%= icon @user, size:80 %>
         <%= @user.name %>
-        <%= "@#{@user.twitter_id}" %>
       </h1>
+      <% if @user.twitter_id %>
+        <%= link_to "@#{@user.twitter_id}", "https://twitter.com/#{@user.twitter_id}" %>
+      <% end %>
     </section>
   </aside>
 </div>

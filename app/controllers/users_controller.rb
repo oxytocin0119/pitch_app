@@ -19,12 +19,14 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
+    update_user = User.find_by(email: @user.email)
     if User.find_by(email: @user.email)\
        && User.find_by(email:@user.email).authenticate(@user.password)\
        && @user.twitter_id #メールアドレスで登録してツイッター連携した場合
       @user.name = User.find_by(email: @user.email).name
-      update_user = User.find_by(email: @user.email)
-      if update_user.update_attributes(twitter_id: @user.twitter_id, icon:@user.icon)
+      if update_user.update_attributes(twitter_id: @user.twitter_id,
+                                       icon:@user.icon,
+                                       twitter_uid:@user.twitter_uid)
         log_in update_user
         flash[:success] = "Twitterアカウントを更新しました"
         redirect_to update_user
@@ -32,23 +34,27 @@ class UsersController < ApplicationController
         flash.now[:danger] = "原因不明のエラー"
         render 'new' and return #なぜか失敗した場合
       end
-    elsif @user.email.present? && @user.twitter_id.present?\
-          && User.find_by(email:@user.email) != @user
+    elsif @user.twitter_id.present? && update_user.blank? && @user.email.present?
       #登録されていないアドレスに連携させようとした場合
       flash.now[:danger] = "メールアドレスが見つかりませんでした"
       render 'new' and return
-    elsif @user.save
+    elsif update_user.blank? && @user.save
       if @user.twitter_id.blank? #メールアドレスで登録
         @user.send_activation_email
         flash[:info] = "アカウント有効化のため、登録したメールアドレス宛に送信されたメールをご確認ください"
         redirect_to root_url
-      else #ツイッターで作成した場合
+      elsif @user.twitter_id.present? #ツイッターで作成した場合
         @user.activate
         log_in @user
         flash[:success] = "アカウントが作成されました"
         redirect_to @user
       end
     else #作成失敗
+      if update_user && !(update_user.authenticate(@user.password))
+        flash[:danger] = "メールアドレスまたはパスワードが違います"
+#      else
+ #       flash[:danger] = "原因不明のエラー"
+      end
       render 'new'
     end
   end

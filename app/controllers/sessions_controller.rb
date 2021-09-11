@@ -31,9 +31,11 @@ class SessionsController < ApplicationController
       redirect_to root_path
     end
     user_data = request.env['omniauth.auth']
-    @user = User.find_by(twitter_id: user_data[:info][:nickname])
+    # @user = User.find_by(twitter_id: user_data[:info][:nickname])
+    @user = User.find_by(twitter_uid: user_data[:uid])
 
     if @user
+      @user.twitter_id = user_data[:info][:nickname] if @user.twitter_id != user_data[:info][:nickname]
       log_in @user
       flash[:success] = 'ログインしました'
       redirect_back_or @user
@@ -42,6 +44,7 @@ class SessionsController < ApplicationController
         name: user_data[:info][:name],
         twitter_id: user_data[:info][:nickname],
         icon: user_data[:info][:image],
+        twitter_uid: user_data[:uid],
       )
       render 'users/new'
     end

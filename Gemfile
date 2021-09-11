@@ -18,6 +18,9 @@ gem 'dotenv-rails'
 gem 'omniauth-twitter'
 gem 'omniauth-rails_csrf_protection'
 gem 'twitter'
+gem 'rails-i18n'
+gem 'bootstrap-social-rails'
+gem 'font-awesome-sass'
 
 group :development, :test do
   gem 'sqlite3', '1.3.13'

@@ -4,7 +4,10 @@
 <h1>Sign up</h1>
 
 <% unless @user.twitter_id %>
-<%= link_to 'Twitterで登録', '/auth/twitter', method: :post %>
+  <%= link_to '/auth/twitter', method: :post, class: "btn btn-social btn-twitter" do %>
+  <i class="fab fa-twitter fa-sm"></i>
+  Twitterで登録
+  <% end %>
 <% end %>
 
 <div class="row">

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20210910162206) do
+ActiveRecord::Schema.define(version: 20210911085822) do
 
   create_table "users", force: :cascade do |t|
     t.string "name"
@@ -25,8 +25,10 @@ ActiveRecord::Schema.define(version: 20210910162206) do
     t.string "activation_digest"
     t.boolean "activated", default: false
     t.datetime "activated_at"
+    t.string "twitter_uid"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["twitter_id"], name: "index_users_on_twitter_id", unique: true
+    t.index ["twitter_uid"], name: "index_users_on_twitter_uid", unique: true
   end
 
 end

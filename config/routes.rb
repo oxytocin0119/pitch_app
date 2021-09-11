@@ -14,4 +14,5 @@ Rails.application.routes.draw do
   get    '/auth/:provider/callback', to: 'sessions#create_by_twitter'
   get  '/change_icon', to: 'users#change_icon'
   resources :users
+  resources :account_activations, only: [:edit]
 end

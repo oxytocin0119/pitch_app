@@ -10,7 +10,9 @@ User.create!(name:  "Example User",
              email: "example@railstutorial.org",
              password:              "foobar",
              password_confirmation: "foobar",
-             admin: true)
+             admin:     true,
+             activated: true,
+             activated_at: Time.zone.now)
 
 def client
   @client = Twitter::REST::Client.new do |config|
@@ -36,6 +38,8 @@ end
                twitter_id: twitter_id,
                icon:  icon,
                password:              password,
-               password_confirmation: password)
+               password_confirmation: password,
+               activated: true,
+               activated_at: Time.zone.now)
   
 end

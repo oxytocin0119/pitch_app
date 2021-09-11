@@ -5,11 +5,12 @@ class UsersController < ApplicationController
   before_action :current_or_admin, only: :destroy
 
   def index
-    @users = User.paginate(page: params[:page])
+    @users = User.where(activated: true).paginate(page: params[:page])
   end
 
   def show
     @user = User.find(params[:id])
+    redirect_to root_url and return unless @user.activated?
   end
 
   def new
@@ -20,7 +21,7 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     if User.find_by(email: @user.email)\
        && User.find_by(email:@user.email).authenticate(@user.password)\
-       && @user.twitter_id
+       && @user.twitter_id #メールアドレスで登録してツイッター連携した場合
       @user.name = User.find_by(email: @user.email).name
       update_user = User.find_by(email: @user.email)
       if update_user.update_attributes(twitter_id: @user.twitter_id, icon:@user.icon)
@@ -28,13 +29,26 @@ class UsersController < ApplicationController
         flash[:success] = "Twitterアカウントを更新しました"
         redirect_to update_user
       else
-        render 'new' and return
+        flash.now[:danger] = "原因不明のエラー"
+        render 'new' and return #なぜか失敗した場合
       end
+    elsif @user.email.present? && @user.twitter_id.present?\
+          && User.find_by(email:@user.email) != @user
+      #登録されていないアドレスに連携させようとした場合
+      flash.now[:danger] = "メールアドレスが見つかりませんでした"
+      render 'new' and return
     elsif @user.save
-      log_in @user
-      flash[:success] = "アカウントが作成されました"
-      redirect_to @user
-    else
+      if @user.twitter_id.blank? #メールアドレスで登録
+        @user.send_activation_email
+        flash[:info] = "アカウント有効化のため、登録したメールアドレス宛に送信されたメールをご確認ください"
+        redirect_to root_url
+      else #ツイッターで作成した場合
+        @user.activate
+        log_in @user
+        flash[:success] = "アカウントが作成されました"
+        redirect_to @user
+      end
+    else #作成失敗
       render 'new'
     end
   end

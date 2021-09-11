@@ -4,12 +4,13 @@
   <%= f.label :name %>
   <%= f.text_field :name, class: 'form-control' %>
 
-  <% if @user.twitter_id %>
+  <% if @user.twitter_id && !(@user.activated) %>
     <%= f.label :email, "email (メールアドレスで登録済みの場合)" %>
-  <% else %>
+    <%= f.email_field :email, class: 'form-control' %>
+  <% elsif !(@user.activated) %>
     <%= f.label :email %>
+    <%= f.email_field :email, class: 'form-control' %>
   <% end %>
-  <%= f.email_field :email, class: 'form-control' %>
 
   <% if @user.twitter_id %>
     <%= f.label :twitter_id, "Twitter ID" %>
